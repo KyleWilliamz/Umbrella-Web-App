@@ -7,7 +7,7 @@ from website.forms import LoginForm
 def home():
     return render_template('index.html', title="Welcome!")
 
-@application.route('/login')
+@application.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     return render_template('login.html', title="Log In", form=form)
