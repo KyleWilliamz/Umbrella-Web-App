@@ -1,4 +1,4 @@
-from website import db
+from website import db, LoginManager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from website import login
@@ -8,7 +8,7 @@ from website import login
 def load_user(id):
     return User.query.get(int(id))
 
-class User(UserMixin, db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
@@ -21,4 +21,13 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return f"User('{self.username}')"
+        return f"User('{self.username}', '{self.email}')"
+
+class Locations(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    cityName = db.Column(db.String(64), nullable=False)
+    zipCode = db.Column(db.String(64), nullable=False)
+    phoneNumber = db.Column(db.String(32), nullable=False)
+
+    def __repr__(self):
+        return f"Location('{self.cityName}', '{self.zipCode}', '{self.phoneNumber}')"

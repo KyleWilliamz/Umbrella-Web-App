@@ -1,10 +1,10 @@
 {% extends "template.html" %}
 {% block content %}
 <div class="form-location">
-    <form action="" method="post" novalidate>
+    <form action="" method="POST" novalidate>
         {{ form.hidden_tag() }}
-    <fieldset class="form-group" style="border: 1px black;">
-        <legend>Log In</legend>
+    <fieldset class="form-group">
+        <legend class="border-bottom mb-4">Log In</legend>
         <div class="form-group">
             {{ form.username.label(class="form-control-label") }}
             {% if form.username.errors %}

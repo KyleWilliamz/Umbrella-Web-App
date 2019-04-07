@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 
-application = Flask(__name__)
+application = Flask(__name__, instance_relative_config=True)
 application.config.from_pyfile('config.py')
 application.config['SECRET_KEY']
 application.config['SQLALCHEMY_DATABASE_URI']
