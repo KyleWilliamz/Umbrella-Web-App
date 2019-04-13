@@ -1,7 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
+from wtforms_components import TimeField
+from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Regexp
 from website.models import User
+import pycountry
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -26,3 +28,11 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address.')
+
+class LocationForm(FlaskForm):
+    codes = [(country.alpha_2, country.name) for country in pycountry.countries]
+    cityName = StringField('City', validators=[DataRequired()])
+    country = SelectField( 'Country', choices=codes, validators=[DataRequired()])
+    time = TimeField('Notification Time', validators=[DataRequired()])
+    phone = StringField('Phone', validators=[DataRequired(), Regexp('^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$', flags=0, message='Please enter a valid US Phone Number with the area code.')]) 
+    submit = SubmitField('Add')

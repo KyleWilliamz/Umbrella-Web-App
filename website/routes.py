@@ -1,6 +1,6 @@
 from website import application, db
 from flask import render_template, redirect, request, flash, url_for
-from website.forms import LoginForm, RegistrationForm
+from website.forms import LoginForm, RegistrationForm, LocationForm
 from flask_login import current_user, login_user, login_required, logout_user
 from website.models import User
 from werkzeug.urls import url_parse
@@ -50,5 +50,7 @@ def logout():
 @application.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
+    form = LocationForm()
     info = User.query.filter_by(username=current_user.username).first()
-    return render_template('account.html', title="Account", info=info)
+    print(info.locations)
+    return render_template('account.html', title="Account", form=form, info=info, locations=info.locations)
